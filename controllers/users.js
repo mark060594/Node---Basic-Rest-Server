@@ -1,5 +1,7 @@
 const { response, request } = require('express');
 
+const Usuario = require('../models/user');
+
 const usersGet = (req = request , res = response) => {
 
     //Reading query params
@@ -13,18 +15,24 @@ const usersGet = (req = request , res = response) => {
     });
   }
 
-const usersPost = (req, res) => {
+const usersPost = async(req, res) => {
 
     //Reading the content body
-    const {Nombre, Apellido} = req.body;
+    const body = req.body;
+
+    //Instance model
+    const usuario = new Usuario( body );
+
+    //To save information in data base
+    await usuario.save();
 
     res.json({
         msg:'post API',
-        Nombre,
-        Apellido
+        usuario
     });
   }
 
+  
   const usersPut = (req, res) => {
 
     //Reading params
